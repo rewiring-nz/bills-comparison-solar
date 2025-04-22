@@ -8,7 +8,7 @@ st.markdown(
     "Compare the costs of powering your home with and without solar panels over time."
 )
 
-col1, col2, col3 = st.columns([1, 1, 1])
+col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
 
 # Main settings
 with col1:
@@ -31,13 +31,20 @@ with col3:
     )
 
 # Advanced settings (hidden by default)
-with st.expander("Show advanced options"):
-    grid_price = st.number_input(
-        "Grid price ($/kWh)", min_value=0.1, max_value=1.0, value=0.34, step=0.01
-    )
-    export_tariff = st.number_input(
-        "Export Tariff ($/kWh)", min_value=0.0, max_value=1.0, value=0.13, step=0.01
-    )
-    self_consumption = st.slider(
-        "Self-consumption rate (%)", min_value=0, max_value=100, value=50, step=5
-    )
+
+with col4:
+    show_advanced = st.checkbox("Show advanced settings")
+
+if show_advanced:
+    with col1:
+        grid_price = st.number_input(
+            "Grid price ($/kWh)", min_value=0.1, max_value=1.0, value=0.34, step=0.01
+        )
+    with col2:
+        export_tariff = st.number_input(
+            "Export Tariff ($/kWh)", min_value=0.0, max_value=1.0, value=0.13, step=0.01
+        )
+    with col3:
+        self_consumption = st.slider(
+            "Self-consumption rate (%)", min_value=0, max_value=100, value=50, step=5
+        )
