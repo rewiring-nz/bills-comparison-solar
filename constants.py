@@ -54,10 +54,10 @@ class ChartSeriesLabel(Enum):
 
 
 CHART_SERIES_COLOURS = {
-    ChartSeriesLabel.POWER_BILL: "#FF5733",
-    ChartSeriesLabel.UPFRONT_COST: "#3366FF",
-    ChartSeriesLabel.INTEREST: "#33CC33",
-    ChartSeriesLabel.PRINCIPAL_REPAYMENTS: "#FFCC00",
+    ChartSeriesLabel.POWER_BILL: COLOURS["red"]["300"],
+    ChartSeriesLabel.UPFRONT_COST: COLOURS["sage"]["500"],
+    ChartSeriesLabel.INTEREST: COLOURS["yellow"]["300"],
+    ChartSeriesLabel.PRINCIPAL_REPAYMENTS: COLOURS["sage"]["300"],
 }
 
 

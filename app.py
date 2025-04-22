@@ -5,7 +5,6 @@ from chart import create_stacked_bar_chart
 from constants import (
     DEFAULTS,
     ChartDataSet,
-    ChartSeriesLabel,
     Config,
 )
 from utils import get_ymax, sum_chart_data_bill_values
