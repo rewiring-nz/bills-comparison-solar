@@ -1,9 +1,9 @@
 import plotly.graph_objects as go
 
-from constants import CHART_SERIES_COLOURS, ChartData
+from constants import CHART_SERIES_COLOURS, COLOURS, ChartData
 
 
-def create_stacked_bar_chart(title: str, data: ChartData):
+def create_stacked_bar_chart(title: str, data: ChartData, ymax: int):
     fig = go.Figure()
 
     for series in data:
@@ -18,7 +18,7 @@ def create_stacked_bar_chart(title: str, data: ChartData):
                 y=values,
                 name=label.value,
                 marker_color=color,
-                hovertemplate=f"{label}: $%{{y:,.0f}}<extra></extra>",
+                hovertemplate=f"{label.value}: $%{{y:,.0f}}<extra></extra>",
             )
         )
 
@@ -26,7 +26,7 @@ def create_stacked_bar_chart(title: str, data: ChartData):
         title=title,
         barmode="stack",
         showlegend=False,
-        margin=dict(l=40, r=40, t=50, b=20),
+        margin=dict(l=0, r=0, t=50, b=60),
         height=300,
         xaxis=dict(
             showgrid=False,
@@ -35,12 +35,13 @@ def create_stacked_bar_chart(title: str, data: ChartData):
             tickfont=dict(size=11),
         ),
         yaxis=dict(
+            range=[0, ymax],
             showgrid=False,
             showline=False,
             showticklabels=False,
             title=None,
         ),
-        plot_bgcolor="white",
+        plot_bgcolor=COLOURS["neutral"]["50"],
         hoverlabel=dict(
             bgcolor="white",
             font_size=14,

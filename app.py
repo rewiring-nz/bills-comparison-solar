@@ -19,6 +19,7 @@ st.markdown(
     "Compare the costs of powering your home with and without solar panels over time."
 )
 
+st.markdown("---")
 
 config_cols = st.columns(4)
 
@@ -93,6 +94,7 @@ config: Config = {
 }
 chart_data_set: ChartDataSet = calculate(config)
 
+st.markdown("---")
 
 # Legend
 legend_cols = st.columns(4)
@@ -117,46 +119,37 @@ with legend_cols[3]:
         unsafe_allow_html=True,
     )
 
+st.markdown("####")  # vertical spacer
 
 # Chart styling
-y_max = get_ymax(chart_data_set)
-
+ymax = get_ymax(chart_data_set)
 
 # Chart 1: No Solar
-no_solar_cols = st.columns([4, 1])
-with no_solar_cols[0]:
-    fig1 = create_stacked_bar_chart(title="No Solar", data=chart_data_set["no_solar"])
-    st.plotly_chart(fig1, use_container_width=True)
-with no_solar_cols[1]:
-    no_solar_total = sum_chart_data_bill_values(chart_data_set["no_solar"])
-    st.markdown(f"= ${no_solar_total}")
-
+no_solar_total = sum_chart_data_bill_values(chart_data_set["no_solar"])
+fig1 = create_stacked_bar_chart(
+    title=f"No solar = ${no_solar_total} ($X saving)",
+    data=chart_data_set["no_solar"],
+    ymax=ymax,
+)
+st.plotly_chart(fig1, use_container_width=True)
 
 # Chart 2: With Solar
-no_solar_cols = st.columns([4, 1])
-with no_solar_cols[0]:
-    fig2 = create_stacked_bar_chart(
-        title="With Solar", data=chart_data_set["with_solar"]
-    )
-    st.plotly_chart(fig2, use_container_width=True)
-
-with no_solar_cols[1]:
-    # TODO
-    no_solar_total = sum_chart_data_bill_values(chart_data_set["with_solar"])
-    st.markdown(f"= ${no_solar_total}")
+no_solar_total = sum_chart_data_bill_values(chart_data_set["with_solar"])
+fig2 = create_stacked_bar_chart(
+    title=f"With solar = ${no_solar_total} ($X saving)",
+    data=chart_data_set["with_solar"],
+    ymax=ymax,
+)
+st.plotly_chart(fig2, use_container_width=True)
 
 # Chart 3: With Solar on finance
-no_solar_cols = st.columns([4, 1])
-with no_solar_cols[0]:
-    fig3 = create_stacked_bar_chart(
-        title="With Solar on finance", data=chart_data_set["with_solar_on_finance"]
-    )
-    st.plotly_chart(fig3, use_container_width=True)
-
-with no_solar_cols[1]:
-    # TODO
-    no_solar_total = sum_chart_data_bill_values(chart_data_set["with_solar_on_finance"])
-    st.markdown(f"= ${no_solar_total}")
+no_solar_total = sum_chart_data_bill_values(chart_data_set["with_solar_on_finance"])
+fig3 = create_stacked_bar_chart(
+    title=f"With solar on finance = ${no_solar_total} ($X saving)",
+    data=chart_data_set["with_solar_on_finance"],
+    ymax=ymax,
+)
+st.plotly_chart(fig3, use_container_width=True)
 
 
 st.markdown("---")
