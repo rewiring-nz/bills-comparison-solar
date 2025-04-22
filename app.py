@@ -1,5 +1,15 @@
-from typing import TypedDict
 import streamlit as st
+
+from calculate import calculate
+from chart import create_stacked_bar_chart
+from constants import (
+    CHART_SERIES_COLOURS,
+    DEFAULTS,
+    ChartDataSet,
+    ChartSeriesLabel,
+    Config,
+)
+from utils import get_ymax, sum_chart_data_bill_values
 
 st.set_page_config(page_title="Solar Cost Comparison", page_icon="☀️", layout="wide")
 
@@ -10,29 +20,10 @@ st.markdown(
 )
 
 
-class Config(TypedDict):
-    upfront_cost: float
-    interest_rate: float
-    years: int
-    grid_price: float
-    export_tariff: float
-    self_consumption: float
-
-
-DEFAULTS: Config = {
-    "upfront_cost": 18000,
-    "interest_rate": 5.5,
-    "years": 15,
-    "grid_price": 0.34,
-    "export_tariff": 0.13,
-    "self_consumption": 50,
-}
-
-
-col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
+config_cols = st.columns(4)
 
 # Main settings
-with col1:
+with config_cols[0]:
     upfront_cost = st.number_input(
         "Cost of solar panels ($)",
         min_value=1000,
@@ -41,7 +32,7 @@ with col1:
         step=1000,
     )
 
-with col2:
+with config_cols[1]:
     interest_rate = st.number_input(
         "Annual interest rate (%)",
         min_value=0.0,
@@ -50,18 +41,18 @@ with col2:
         step=0.25,
     )
 
-with col3:
+with config_cols[2]:
     years = st.number_input(
         "Number of years", min_value=5, max_value=30, value=DEFAULTS["years"], step=1
     )
 
 # Advanced settings (hidden by default)
 
-with col4:
-    show_advanced = st.checkbox("Show advanced settings")
+with config_cols[3]:
+    show_advanced = st.checkbox("Show advanced settings", value=False)
 
 if show_advanced:
-    with col1:
+    with config_cols[0]:
         grid_price = st.number_input(
             "Grid price ($/kWh)",
             min_value=0.1,
@@ -69,7 +60,7 @@ if show_advanced:
             value=DEFAULTS["grid_price"],
             step=0.01,
         )
-    with col2:
+    with config_cols[1]:
         export_tariff = st.number_input(
             "Export Tariff ($/kWh)",
             min_value=0.0,
@@ -77,7 +68,7 @@ if show_advanced:
             value=DEFAULTS["export_tariff"],
             step=0.01,
         )
-    with col3:
+    with config_cols[2]:
         self_consumption = st.slider(
             "Self-consumption rate (%)",
             min_value=0,
@@ -86,6 +77,87 @@ if show_advanced:
             step=5,
         )
 else:
-    grid_power_cost = DEFAULTS["grid_price"]
+    grid_price = DEFAULTS["grid_price"]
     export_tariff = DEFAULTS["export_tariff"]
     self_consumption = DEFAULTS["self_consumption"]
+
+
+# Calculate chart values
+config: Config = {
+    "upfront_cost": upfront_cost,
+    "interest_rate": interest_rate,
+    "years": years,
+    "grid_price": grid_price,
+    "export_tariff": export_tariff,
+    "self_consumption": self_consumption,
+}
+chart_data_set: ChartDataSet = calculate(config)
+
+
+# Legend
+legend_cols = st.columns(4)
+with legend_cols[0]:
+    st.markdown(
+        f'<div style="background-color:{CHART_SERIES_COLOURS[ChartSeriesLabel.POWER_BILL]}; width:20px; height:20px; display:inline-block; margin-right:10px;"></div> {ChartSeriesLabel.POWER_BILL.value}',
+        unsafe_allow_html=True,
+    )
+with legend_cols[1]:
+    st.markdown(
+        f'<div style="background-color:{CHART_SERIES_COLOURS[ChartSeriesLabel.UPFRONT_COST]}; width:20px; height:20px; display:inline-block; margin-right:10px;"></div> {ChartSeriesLabel.UPFRONT_COST.value}',
+        unsafe_allow_html=True,
+    )
+with legend_cols[2]:
+    st.markdown(
+        f'<div style="background-color:{CHART_SERIES_COLOURS[ChartSeriesLabel.PRINCIPAL_REPAYMENTS]}; width:20px; height:20px; display:inline-block; margin-right:10px;"></div> {ChartSeriesLabel.PRINCIPAL_REPAYMENTS.value}',
+        unsafe_allow_html=True,
+    )
+with legend_cols[3]:
+    st.markdown(
+        f'<div style="background-color:{CHART_SERIES_COLOURS[ChartSeriesLabel.INTEREST]}; width:20px; height:20px; display:inline-block; margin-right:10px;"></div> {ChartSeriesLabel.INTEREST.value}',
+        unsafe_allow_html=True,
+    )
+
+
+# Chart styling
+y_max = get_ymax(chart_data_set)
+
+
+# Chart 1: No Solar
+no_solar_cols = st.columns([4, 1])
+with no_solar_cols[0]:
+    fig1 = create_stacked_bar_chart(title="No Solar", data=chart_data_set["no_solar"])
+    st.plotly_chart(fig1, use_container_width=True)
+with no_solar_cols[1]:
+    no_solar_total = sum_chart_data_bill_values(chart_data_set["no_solar"])
+    st.markdown(f"= ${no_solar_total}")
+
+
+# Chart 2: With Solar
+no_solar_cols = st.columns([4, 1])
+with no_solar_cols[0]:
+    fig2 = create_stacked_bar_chart(
+        title="With Solar", data=chart_data_set["with_solar"]
+    )
+    st.plotly_chart(fig2, use_container_width=True)
+
+with no_solar_cols[1]:
+    # TODO
+    no_solar_total = sum_chart_data_bill_values(chart_data_set["with_solar"])
+    st.markdown(f"= ${no_solar_total}")
+
+# Chart 3: With Solar on finance
+no_solar_cols = st.columns([4, 1])
+with no_solar_cols[0]:
+    fig3 = create_stacked_bar_chart(
+        title="With Solar on finance", data=chart_data_set["with_solar_on_finance"]
+    )
+    st.plotly_chart(fig3, use_container_width=True)
+
+with no_solar_cols[1]:
+    # TODO
+    no_solar_total = sum_chart_data_bill_values(chart_data_set["with_solar_on_finance"])
+    st.markdown(f"= ${no_solar_total}")
+
+
+st.markdown("---")
+st.caption("Made with love by Rewiring Aotearoa")
