@@ -66,8 +66,8 @@ def calculate_with_solar_on_finance(config: Config) -> ChartData:
         {
             "label": ChartSeriesLabel.INTEREST,
             "years": years_range,
-            # TODO: calculate properly
-            "bill_values": [100] * config["years"],
+            # TODO: calculate this properly
+            "bill_values": [500] * config["years"],
         },
         {
             "label": ChartSeriesLabel.PRINCIPAL_REPAYMENTS,

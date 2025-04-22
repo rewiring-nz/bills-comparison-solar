@@ -21,9 +21,10 @@ st.markdown(
 
 st.markdown("---")
 
-config_cols = st.columns(4)
+show_advanced = st.toggle("Show advanced settings", value=False)
 
-# Main settings
+config_cols = st.columns(3)
+
 with config_cols[0]:
     upfront_cost = st.number_input(
         "Cost of solar panels ($)",
@@ -44,13 +45,8 @@ with config_cols[1]:
 
 with config_cols[2]:
     years = st.number_input(
-        "Number of years", min_value=5, max_value=30, value=DEFAULTS["years"], step=1
+        "Number of years", min_value=5, max_value=30, value=DEFAULTS["years"], step=5
     )
-
-# Advanced settings (hidden by default)
-
-with config_cols[3]:
-    show_advanced = st.checkbox("Show advanced settings", value=False)
 
 if show_advanced:
     with config_cols[0]:
@@ -128,27 +124,35 @@ ymax = get_ymax(chart_data_set)
 no_solar_total = sum_chart_data_bill_values(chart_data_set["no_solar"])
 fig1 = create_stacked_bar_chart(
     title=f"No solar",
-    subtitle=f"${no_solar_total} total over {config["years"]} years",
+    subtitle=f"${no_solar_total:,} total in power bills over {config["years"]} years",
     data=chart_data_set["no_solar"],
     ymax=ymax,
 )
 st.plotly_chart(fig1, use_container_width=True)
 
+st.markdown("---")
+
 # Chart 2: With Solar
-no_solar_total = sum_chart_data_bill_values(chart_data_set["with_solar"])
+with_solar_total = sum_chart_data_bill_values(chart_data_set["with_solar"])
+with_solar_savings = no_solar_total - with_solar_total
 fig2 = create_stacked_bar_chart(
     title=f"With solar",
-    subtitle=f"${no_solar_total} total over {config["years"]} years ($X saved)",
+    subtitle=f"${with_solar_total:,} total in upfront cost + reduced power bills (${with_solar_savings:,} saved) over {config["years"]} years",
     data=chart_data_set["with_solar"],
     ymax=ymax,
 )
 st.plotly_chart(fig2, use_container_width=True)
 
+st.markdown("---")
+
 # Chart 3: With Solar on finance
-no_solar_total = sum_chart_data_bill_values(chart_data_set["with_solar_on_finance"])
+with_solar_finance_total = sum_chart_data_bill_values(
+    chart_data_set["with_solar_on_finance"]
+)
+with_solar_finance_savings = no_solar_total - with_solar_finance_total
 fig3 = create_stacked_bar_chart(
-    title=f"With solar on finance",
-    subtitle=f"${no_solar_total} ($X total over {config["years"]} years saved)",
+    title=f"With solar on finance at {config["interest_rate"]}% interest p.a.",
+    subtitle=f"${with_solar_finance_total:,} total in repayments, interest, and reduced power bills (${with_solar_finance_savings:,} saved) over {config["years"]} years",
     data=chart_data_set["with_solar_on_finance"],
     ymax=ymax,
 )
