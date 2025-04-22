@@ -7,7 +7,7 @@ Estimates a household's emissions and cost savings from electrification. Please 
 ## Installation
 
 ```bash
-pipenv install
+pipenv install --dev
 ```
 
 ## Run
@@ -15,4 +15,14 @@ pipenv install
 ```bash
 pipenv run streamlit run app.py
 ```
-g
+
+
+## Contributing
+
+```bash
+# Run tests
+pipenv run python -m pytest
+
+# Lint (skip string normalisation)
+pipenv run black -S . --exclude src/openapi_client
+```
