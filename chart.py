@@ -3,7 +3,7 @@ import plotly.graph_objects as go
 from constants import CHART_SERIES_COLOURS, COLOURS, ChartData
 
 
-def create_stacked_bar_chart(title: str, data: ChartData, ymax: int):
+def create_stacked_bar_chart(title: str, subtitle: str, data: ChartData, ymax: int):
     fig = go.Figure()
 
     for series in data:
@@ -23,7 +23,30 @@ def create_stacked_bar_chart(title: str, data: ChartData, ymax: int):
         )
 
     fig.update_layout(
-        title=title,
+        title={
+            "text": title,
+            "x": 0.0,
+            "y": 1.0,
+            "xanchor": "left",
+            "yanchor": "top",
+            "font": {
+                "size": 24,
+            },
+        },
+        # Add a subtitle using annotations
+        annotations=[
+            {
+                "text": subtitle,
+                "showarrow": False,
+                "x": 0.0,
+                "y": 1.13,
+                "xref": "paper",
+                "yref": "paper",
+                "xanchor": "left",
+                "yanchor": "top",
+                "font": {"size": 16, "color": COLOURS["neutral"]["900"]},
+            }
+        ],
         barmode="stack",
         showlegend=False,
         margin=dict(l=0, r=0, t=50, b=60),
@@ -32,7 +55,7 @@ def create_stacked_bar_chart(title: str, data: ChartData, ymax: int):
             showgrid=False,
             showline=False,
             showticklabels=True,
-            tickfont=dict(size=11),
+            tickfont=dict(size=11, color=COLOURS["neutral"]["900"]),
         ),
         yaxis=dict(
             range=[0, ymax],
@@ -42,8 +65,10 @@ def create_stacked_bar_chart(title: str, data: ChartData, ymax: int):
             title=None,
         ),
         plot_bgcolor=COLOURS["neutral"]["50"],
+        hovermode="x unified",
         hoverlabel=dict(
             bgcolor="white",
+            font_color="black",
             font_size=14,
         ),
     )

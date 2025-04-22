@@ -127,7 +127,8 @@ ymax = get_ymax(chart_data_set)
 # Chart 1: No Solar
 no_solar_total = sum_chart_data_bill_values(chart_data_set["no_solar"])
 fig1 = create_stacked_bar_chart(
-    title=f"No solar = ${no_solar_total} ($X saving)",
+    title=f"No solar",
+    subtitle=f"${no_solar_total} total over {config["years"]} years",
     data=chart_data_set["no_solar"],
     ymax=ymax,
 )
@@ -136,7 +137,8 @@ st.plotly_chart(fig1, use_container_width=True)
 # Chart 2: With Solar
 no_solar_total = sum_chart_data_bill_values(chart_data_set["with_solar"])
 fig2 = create_stacked_bar_chart(
-    title=f"With solar = ${no_solar_total} ($X saving)",
+    title=f"With solar",
+    subtitle=f"${no_solar_total} total over {config["years"]} years ($X saved)",
     data=chart_data_set["with_solar"],
     ymax=ymax,
 )
@@ -145,7 +147,8 @@ st.plotly_chart(fig2, use_container_width=True)
 # Chart 3: With Solar on finance
 no_solar_total = sum_chart_data_bill_values(chart_data_set["with_solar_on_finance"])
 fig3 = create_stacked_bar_chart(
-    title=f"With solar on finance = ${no_solar_total} ($X saving)",
+    title=f"With solar on finance",
+    subtitle=f"${no_solar_total} ($X total over {config["years"]} years saved)",
     data=chart_data_set["with_solar_on_finance"],
     ymax=ymax,
 )
