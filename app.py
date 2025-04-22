@@ -96,30 +96,30 @@ chart_data_set: ChartDataSet = calculate(config)
 
 st.markdown("---")
 
-# Legend
-legend_cols = st.columns(4)
-with legend_cols[0]:
-    st.markdown(
-        f'<div style="background-color:{CHART_SERIES_COLOURS[ChartSeriesLabel.POWER_BILL]}; width:20px; height:20px; display:inline-block; margin-right:10px;"></div> {ChartSeriesLabel.POWER_BILL.value}',
-        unsafe_allow_html=True,
-    )
-with legend_cols[1]:
-    st.markdown(
-        f'<div style="background-color:{CHART_SERIES_COLOURS[ChartSeriesLabel.UPFRONT_COST]}; width:20px; height:20px; display:inline-block; margin-right:10px;"></div> {ChartSeriesLabel.UPFRONT_COST.value}',
-        unsafe_allow_html=True,
-    )
-with legend_cols[2]:
-    st.markdown(
-        f'<div style="background-color:{CHART_SERIES_COLOURS[ChartSeriesLabel.PRINCIPAL_REPAYMENTS]}; width:20px; height:20px; display:inline-block; margin-right:10px;"></div> {ChartSeriesLabel.PRINCIPAL_REPAYMENTS.value}',
-        unsafe_allow_html=True,
-    )
-with legend_cols[3]:
-    st.markdown(
-        f'<div style="background-color:{CHART_SERIES_COLOURS[ChartSeriesLabel.INTEREST]}; width:20px; height:20px; display:inline-block; margin-right:10px;"></div> {ChartSeriesLabel.INTEREST.value}',
-        unsafe_allow_html=True,
-    )
+# # Legend
+# legend_cols = st.columns(4)
+# with legend_cols[0]:
+#     st.markdown(
+#         f'<div style="background-color:{CHART_SERIES_COLOURS[ChartSeriesLabel.POWER_BILL]}; width:20px; height:20px; display:inline-block; margin-right:10px;"></div> {ChartSeriesLabel.POWER_BILL.value}',
+#         unsafe_allow_html=True,
+#     )
+# with legend_cols[1]:
+#     st.markdown(
+#         f'<div style="background-color:{CHART_SERIES_COLOURS[ChartSeriesLabel.UPFRONT_COST]}; width:20px; height:20px; display:inline-block; margin-right:10px;"></div> {ChartSeriesLabel.UPFRONT_COST.value}',
+#         unsafe_allow_html=True,
+#     )
+# with legend_cols[2]:
+#     st.markdown(
+#         f'<div style="background-color:{CHART_SERIES_COLOURS[ChartSeriesLabel.PRINCIPAL_REPAYMENTS]}; width:20px; height:20px; display:inline-block; margin-right:10px;"></div> {ChartSeriesLabel.PRINCIPAL_REPAYMENTS.value}',
+#         unsafe_allow_html=True,
+#     )
+# with legend_cols[3]:
+#     st.markdown(
+#         f'<div style="background-color:{CHART_SERIES_COLOURS[ChartSeriesLabel.INTEREST]}; width:20px; height:20px; display:inline-block; margin-right:10px;"></div> {ChartSeriesLabel.INTEREST.value}',
+#         unsafe_allow_html=True,
+#     )
 
-st.markdown("####")  # vertical spacer
+# st.markdown("####")  # vertical spacer
 
 # Chart styling
 ymax = get_ymax(chart_data_set)
