@@ -3,7 +3,6 @@ import streamlit as st
 from calculate import calculate
 from chart import create_stacked_bar_chart
 from constants import (
-    CHART_SERIES_COLOURS,
     DEFAULTS,
     ChartDataSet,
     ChartSeriesLabel,
@@ -11,12 +10,14 @@ from constants import (
 )
 from utils import get_ymax, sum_chart_data_bill_values
 
-st.set_page_config(page_title="Solar Cost Comparison", page_icon="☀️", layout="wide")
+st.set_page_config(
+    page_title="Solar Lifetime Savings Calculator", page_icon="☀️", layout="wide"
+)
 
 
-st.title("Solar Energy Cost Comparison")
+st.title("Solar Lifetime Savings Calculator ☀️")
 st.markdown(
-    "Compare the costs of powering your home with and without solar panels over time."
+    "Compare the costs of powering your home with and without solar panels over the lifetime of the panels."
 )
 
 st.markdown("---")
