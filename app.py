@@ -10,6 +10,7 @@ st.markdown(
 
 col1, col2, col3 = st.columns([1, 1, 1])
 
+# Main settings
 with col1:
     upfront_cost = st.number_input(
         "Cost of solar panels ($)",
@@ -27,4 +28,16 @@ with col2:
 with col3:
     years = st.number_input(
         "Number of years", min_value=5, max_value=30, value=15, step=1
+    )
+
+# Advanced settings (hidden by default)
+with st.expander("Show advanced options"):
+    grid_price = st.number_input(
+        "Grid price ($/kWh)", min_value=0.1, max_value=1.0, value=0.34, step=0.01
+    )
+    export_tariff = st.number_input(
+        "Export Tariff ($/kWh)", min_value=0.0, max_value=1.0, value=0.13, step=0.01
+    )
+    self_consumption = st.slider(
+        "Self-consumption rate (%)", min_value=0, max_value=100, value=50, step=5
     )
