@@ -156,4 +156,6 @@ st.plotly_chart(fig3, use_container_width=True)
 
 
 st.markdown("---")
-st.caption("Made with love by Rewiring Aotearoa")
+st.caption(
+    "Created by [Rewiring Aotearoa](https://www.rewiring.nz/), a nonprofit representing everyday New Zealanders in the energy transition. [See our open-source model on GitHub](https://github.com/rewiring-nz/bills-comparison-solar). Whakahiko te ao! (Electrify everything!) ⚡️"
+)
