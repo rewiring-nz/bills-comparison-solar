@@ -1,3 +1,4 @@
+from typing import TypedDict
 import streamlit as st
 
 st.set_page_config(page_title="Solar Cost Comparison", page_icon="☀️", layout="wide")
@@ -8,7 +9,17 @@ st.markdown(
     "Compare the costs of powering your home with and without solar panels over time."
 )
 
-DEFAULTS = {
+
+class Config(TypedDict):
+    upfront_cost: float
+    interest_rate: float
+    years: int
+    grid_price: float
+    export_tariff: float
+    self_consumption: float
+
+
+DEFAULTS: Config = {
     "upfront_cost": 18000,
     "interest_rate": 5.5,
     "years": 15,
@@ -16,6 +27,7 @@ DEFAULTS = {
     "export_tariff": 0.13,
     "self_consumption": 50,
 }
+
 
 col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
 
