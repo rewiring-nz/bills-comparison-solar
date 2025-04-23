@@ -1,5 +1,5 @@
-from calculate import calculate_no_solar, get_years_range
-from constants import ChartSeriesLabel
+from calculate import calculate_no_solar, calculate_with_solar, get_years_range
+from constants import ChartSeriesLabel, Config
 
 
 def test_get_years_range():
@@ -15,3 +15,15 @@ def test_calculate_no_solar():
             "bill_values": [1461.0, 1461.0, 1461.0],
         }
     ]
+
+
+# def test_calculate_with_solar():
+#     config: Config = {
+#         "solar_size": 1,
+#         "interest_rate": 1,
+#         "years": 1,
+#         "grid_price": 1,
+#         "export_tariff": 1,
+#         "self_consumption": 1,
+#     }
+#     result = calculate_with_solar(config)

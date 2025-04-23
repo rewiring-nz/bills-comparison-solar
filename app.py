@@ -26,12 +26,12 @@ show_advanced = st.toggle("Show advanced settings", value=False)
 config_cols = st.columns(3)
 
 with config_cols[0]:
-    upfront_cost = st.number_input(
-        "Cost of solar panels ($)",
-        min_value=1000,
-        max_value=50000,
-        value=DEFAULTS["upfront_cost"],
-        step=1000,
+    solar_size = st.number_input(
+        "Size of solar panels (kW)",
+        min_value=2,
+        max_value=200,
+        value=DEFAULTS["solar_size"],
+        step=1,
     )
 
 with config_cols[1]:
@@ -81,7 +81,7 @@ else:
 
 # Calculate chart values
 config: Config = {
-    "upfront_cost": upfront_cost,
+    "solar_size": solar_size,
     "interest_rate": interest_rate,
     "years": years,
     "grid_price": grid_price,
@@ -101,7 +101,7 @@ st.markdown("---")
 #     )
 # with legend_cols[1]:
 #     st.markdown(
-#         f'<div style="background-color:{CHART_SERIES_COLOURS[ChartSeriesLabel.UPFRONT_COST]}; width:20px; height:20px; display:inline-block; margin-right:10px;"></div> {ChartSeriesLabel.UPFRONT_COST.value}',
+#         f'<div style="background-color:{CHART_SERIES_COLOURS[ChartSeriesLabel.solar_size]}; width:20px; height:20px; display:inline-block; margin-right:10px;"></div> {ChartSeriesLabel.solar_size.value}',
 #         unsafe_allow_html=True,
 #     )
 # with legend_cols[2]:

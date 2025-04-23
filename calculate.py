@@ -1,5 +1,6 @@
 from typing import List
 
+from calculate_solar import calculate_upfront_cost
 from constants import (
     AVERAGE_ANNUAL_POWER_USE,
     ChartData,
@@ -27,7 +28,7 @@ def calculate_no_solar(grid_price: float, n_years: int) -> ChartData:
         {
             "label": ChartSeriesLabel.POWER_BILL,
             "years": format_years_range(get_years_range(n_years)),
-            # TODO unit test & confirm
+            # TODO: project grid price increase over time rather than flat rate, or take average over next N years
             "bill_values": [AVERAGE_ANNUAL_POWER_USE * grid_price] * n_years,
         }
     ]
@@ -35,6 +36,7 @@ def calculate_no_solar(grid_price: float, n_years: int) -> ChartData:
 
 def calculate_with_solar(config: Config) -> ChartData:
     years_range = format_years_range(get_years_range(config["years"]))
+    upfront_cost = calculate_upfront_cost(config["solar_size"])
     # TODO: currently just dummy values
     return [
         {
@@ -47,13 +49,14 @@ def calculate_with_solar(config: Config) -> ChartData:
         {
             "label": ChartSeriesLabel.UPFRONT_COST,
             "years": years_range,
-            "bill_values": [config["upfront_cost"]] + [0] * (config["years"] - 1),
+            "bill_values": [upfront_cost] + [0] * (config["years"] - 1),
         },
     ]
 
 
 def calculate_with_solar_on_finance(config: Config) -> ChartData:
     years_range = format_years_range(get_years_range(config["years"]))
+    upfront_cost = calculate_upfront_cost(config["solar_size"])
     # TODO: currently just dummy values
     return [
         {
@@ -72,7 +75,7 @@ def calculate_with_solar_on_finance(config: Config) -> ChartData:
         {
             "label": ChartSeriesLabel.PRINCIPAL_REPAYMENTS,
             "years": years_range,
-            "bill_values": [config["upfront_cost"] / config["years"]] * config["years"],
+            "bill_values": [upfront_cost / config["years"]] * config["years"],
         },
     ]
 

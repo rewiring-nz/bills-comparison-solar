@@ -3,7 +3,7 @@ from typing import List, Optional, TypedDict
 
 
 class Config(TypedDict):
-    upfront_cost: float
+    solar_size: float
     interest_rate: float
     years: int
     grid_price: float
@@ -12,11 +12,11 @@ class Config(TypedDict):
 
 
 DEFAULTS: Config = {
-    "upfront_cost": 18000,
+    "solar_size": 7,
     "interest_rate": 5.5,
     "years": 15,
-    "grid_price": 0.34,
-    "export_tariff": 0.13,
+    "grid_price": 0.27,  # volume price as of Feb 2025
+    "export_tariff": 0.135,
     "self_consumption": 50,
 }
 
@@ -41,9 +41,13 @@ COLOURS = {
     "purple": {"300": "#976aa7", "500": "#6E5E74"},
 }
 
+# kWh, from this cell: https://docs.google.com/spreadsheets/d/1N1fpcvTa6erS-CiGmYfRD8Gef6INXPEYHMogA5sbiAw/edit?gid=719309390#gid=719309390&range=F94
+# Assumes 1.8 cars, both electrified
+AVERAGE_ANNUAL_POWER_USE = 9257
+# AVERAGE_ANNUAL_POWER_USE = 4377 # without cars, appliances only
 
-AVERAGE_DAILY_POWER_USE = 20  # kWh
-AVERAGE_ANNUAL_POWER_USE = AVERAGE_DAILY_POWER_USE * 365.25  # kWh
+# Takes into account the inverter
+SOLAR_COST_PER_KW = 20500 / 9  # $2277.78
 
 
 class ChartSeriesLabel(Enum):
