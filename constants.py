@@ -6,8 +6,10 @@ class Config(TypedDict):
     solar_size: float
     interest_rate: float
     years: int
+    solar_price: int
     grid_price: float
     export_tariff: float
+    annual_power_use: float
     self_consumption: float
 
 
@@ -15,8 +17,13 @@ DEFAULTS: Config = {
     "solar_size": 7,
     "interest_rate": 5.5,
     "years": 15,
+    "solar_price": 2300,  # $20500/9 = 2277.78, rounded to $2300, including inverter cost
     "grid_price": 0.27,  # volume price as of Feb 2025
     "export_tariff": 0.135,
+    # kWh, from this cell: https://docs.google.com/spreadsheets/d/1N1fpcvTa6erS-CiGmYfRD8Gef6INXPEYHMogA5sbiAw/edit?gid=719309390#gid=719309390&range=F94
+    # Assumes 1.8 cars, both electrified
+    "annual_power_use": 9527,  # kWh/yr
+    # "annual_power_use" = 4377 # without cars, appliances only
     "self_consumption": 50,
 }
 
@@ -40,14 +47,6 @@ COLOURS = {
     "blue": {"300": "#5e9bc3", "500": "#5A6D7B"},
     "purple": {"300": "#976aa7", "500": "#6E5E74"},
 }
-
-# kWh, from this cell: https://docs.google.com/spreadsheets/d/1N1fpcvTa6erS-CiGmYfRD8Gef6INXPEYHMogA5sbiAw/edit?gid=719309390#gid=719309390&range=F94
-# Assumes 1.8 cars, both electrified
-AVERAGE_ANNUAL_POWER_USE = 9257
-# AVERAGE_ANNUAL_POWER_USE = 4377 # without cars, appliances only
-
-# Takes into account the inverter
-SOLAR_COST_PER_KW = 20500 / 9  # $2277.78
 
 
 class ChartSeriesLabel(Enum):

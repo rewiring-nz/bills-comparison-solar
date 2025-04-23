@@ -26,7 +26,7 @@ def create_stacked_bar_chart(title: str, subtitle: str, data: ChartData, ymax: i
         title={
             "text": title,
             "x": 0.0,
-            "y": 0.97,
+            "y": 0.99,
             "xanchor": "left",
             "yanchor": "top",
             "font": {
@@ -39,7 +39,7 @@ def create_stacked_bar_chart(title: str, subtitle: str, data: ChartData, ymax: i
                 "text": subtitle,
                 "showarrow": False,
                 "x": 0.0,
-                "y": 1.16,
+                "y": 1.25,
                 "xref": "paper",
                 "yref": "paper",
                 "xanchor": "left",
@@ -50,7 +50,7 @@ def create_stacked_bar_chart(title: str, subtitle: str, data: ChartData, ymax: i
         barmode="stack",
         showlegend=False,
         margin=dict(l=0, r=0, t=60, b=0),
-        height=250,
+        height=220,
         xaxis=dict(
             showgrid=False,
             showline=False,

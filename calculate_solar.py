@@ -1,10 +1,8 @@
-from constants import SOLAR_COST_PER_KW
-
 # TODO: Pop this out into a module that can be installed
 
 
-def calculate_upfront_cost(solar_size: float) -> float:
-    return round(SOLAR_COST_PER_KW * solar_size)
+def calculate_upfront_cost(solar_size: float, solar_price: int) -> float:
+    return round(solar_price * solar_size)
 
 
 # def _get_total_opex(

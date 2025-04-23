@@ -7,12 +7,12 @@ def test_get_years_range():
 
 
 def test_calculate_no_solar():
-    result = calculate_no_solar(0.2, 3)
+    result = calculate_no_solar(0.2, 3, 2500)
     assert result == [
         {
             "label": ChartSeriesLabel.POWER_BILL,
             "years": ["Year 1", "Year 2", "Year 3"],
-            "bill_values": [1461.0, 1461.0, 1461.0],
+            "bill_values": [500, 500, 500],
         }
     ]
 

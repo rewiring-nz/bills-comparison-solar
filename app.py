@@ -16,7 +16,7 @@ st.set_page_config(
 
 st.title("Solar Lifetime Savings Calculator ☀️")
 st.markdown(
-    "Compare the costs of powering your home with and without solar panels over the lifetime of the panels."
+    "Compare the costs of powering an average NZ home with and without solar panels over the lifetime of the panels."
 )
 
 st.markdown("---")
@@ -26,10 +26,10 @@ show_advanced = st.toggle("Show advanced settings", value=False)
 config_cols = st.columns(3)
 
 with config_cols[0]:
-    solar_size = st.number_input(
+    solar_size = st.slider(
         "Size of solar panels (kW)",
         min_value=2,
-        max_value=200,
+        max_value=14,
         value=DEFAULTS["solar_size"],
         step=1,
     )
@@ -44,12 +44,21 @@ with config_cols[1]:
     )
 
 with config_cols[2]:
-    years = st.number_input(
-        "Number of years", min_value=5, max_value=30, value=DEFAULTS["years"], step=5
+    years = st.slider(
+        "Number of years", min_value=5, max_value=30, value=DEFAULTS["years"], step=1
     )
 
 if show_advanced:
-    with config_cols[0]:
+    advanced_config_cols = st.columns(5)
+    with advanced_config_cols[0]:
+        solar_price = st.slider(
+            "Solar panels price per kWh ($/kWh)",
+            min_value=500,
+            max_value=3000,
+            value=DEFAULTS["solar_price"],
+            step=100,
+        )
+    with advanced_config_cols[1]:
         grid_price = st.number_input(
             "Grid price ($/kWh)",
             min_value=0.1,
@@ -57,7 +66,7 @@ if show_advanced:
             value=DEFAULTS["grid_price"],
             step=0.01,
         )
-    with config_cols[1]:
+    with advanced_config_cols[2]:
         export_tariff = st.number_input(
             "Export Tariff ($/kWh)",
             min_value=0.0,
@@ -65,7 +74,15 @@ if show_advanced:
             value=DEFAULTS["export_tariff"],
             step=0.01,
         )
-    with config_cols[2]:
+    with advanced_config_cols[3]:
+        annual_power_use = st.slider(
+            "Annual power use (kWh/yr)",
+            min_value=1000,
+            max_value=20000,
+            value=DEFAULTS["annual_power_use"],
+            step=1,
+        )
+    with advanced_config_cols[4]:
         self_consumption = st.slider(
             "Self-consumption rate (%)",
             min_value=0,
@@ -74,8 +91,10 @@ if show_advanced:
             step=5,
         )
 else:
+    solar_price = DEFAULTS["solar_price"]
     grid_price = DEFAULTS["grid_price"]
     export_tariff = DEFAULTS["export_tariff"]
+    annual_power_use = DEFAULTS["annual_power_use"]
     self_consumption = DEFAULTS["self_consumption"]
 
 
@@ -84,8 +103,10 @@ config: Config = {
     "solar_size": solar_size,
     "interest_rate": interest_rate,
     "years": years,
+    "solar_price": solar_price,
     "grid_price": grid_price,
     "export_tariff": export_tariff,
+    "annual_power_use": annual_power_use,
     "self_consumption": self_consumption,
 }
 chart_data_set: ChartDataSet = calculate(config)
@@ -161,5 +182,5 @@ st.plotly_chart(fig3, use_container_width=True)
 
 st.markdown("---")
 st.caption(
-    "Created by [Rewiring Aotearoa](https://www.rewiring.nz/), a nonprofit representing everyday New Zealanders in the energy transition. [See our open-source model on GitHub](https://github.com/rewiring-nz/bills-comparison-solar). Whakahiko te ao! (Electrify everything!) ⚡️"
+    "Created by [Rewiring Aotearoa](https://www.rewiring.nz/), a nonprofit representing everyday New Zealanders in the energy transition. Energy needs are based on NZ averages. [See our open-source model on GitHub](https://github.com/rewiring-nz/bills-comparison-solar). Whakahiko te ao! (Electrify everything!) ⚡️"
 )
