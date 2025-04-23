@@ -53,7 +53,7 @@ if show_advanced:
     with advanced_config_cols[0]:
         solar_price = st.slider(
             "Solar panels price per kWh ($/kWh)",
-            min_value=500,
+            min_value=1000,
             max_value=3000,
             value=DEFAULTS["solar_price"],
             step=100,

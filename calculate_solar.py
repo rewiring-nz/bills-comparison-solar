@@ -1,4 +1,7 @@
-# TODO: Pop this out into a module that can be installed
+# TODO: Pop this out into a module that can be installed, incorporating the other params like location for solar capacity factor from household-model
+
+
+from constants import SOLAR_AVG_DEGRADED_PERFORMANCE_30_YRS
 
 
 def calculate_upfront_cost(solar_size: float, solar_price: int) -> float:
@@ -29,28 +32,16 @@ def calculate_upfront_cost(solar_size: float, solar_price: int) -> float:
 #     return total_bills
 
 
-# def get_e_generated_from_solar(
-#     solar: Solar, location: LocationEnum, period: PeriodEnum = PeriodEnum.YEARLY
-# ) -> float:
-#     """Calculate energy generated from solar
-
-#     Args:
-#         solar (Solar): Information about the solar panel system
-#         location (LocationEnum): The location around NZ which determines the solar capacity
-#         period (PeriodEnum): the period over which to calculate generation
-
-#     Returns:
-#         float: energy generated per year in kWh
-#     """
-#     e_daily = 0
-#     if solar.has_solar is True and solar.size is not None and solar.size > 0:
-#         e_daily = (
-#             solar.size
-#             * SOLAR_CAPACITY_FACTOR.get(location)
-#             * SOLAR_AVG_DEGRADED_PERFORMANCE_30_YRS
-#             * 24  # hours per day
-#         )
-#     return scale_daily_to_period(e_daily, period)
+def get_e_generated_from_solar(
+    solar_size: float, solar_capacity_factor: float
+) -> float:
+    return (
+        solar_size
+        * solar_capacity_factor
+        * SOLAR_AVG_DEGRADED_PERFORMANCE_30_YRS
+        * 24
+        * 365.25
+    )
 
 
 # def _get_max_e_consumed_from_solar(e_needs: MachineEnergyNeeds) -> MachineEnergyNeeds:

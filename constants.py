@@ -10,6 +10,7 @@ class Config(TypedDict):
     grid_price: float
     export_tariff: float
     annual_power_use: float
+    solar_capacity_factor: float
     self_consumption: float
 
 
@@ -24,8 +25,14 @@ DEFAULTS: Config = {
     # Assumes 1.8 cars, both electrified
     "annual_power_use": 9527,  # kWh/yr
     # "annual_power_use" = 4377 # without cars, appliances only
+    "solar_capacity_factor": 15,  # %
     "self_consumption": 50,
 }
+
+# % of max capacity that it generates on average over 30 years, taking into account degradation
+# TODO: The user-facing parameter should be annual degradation 0.5%
+# The average degradation should adjust based on years
+SOLAR_AVG_DEGRADED_PERFORMANCE_30_YRS = 0.9308
 
 COLOURS = {
     "neutral": {
